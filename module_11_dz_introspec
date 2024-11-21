@@ -1,0 +1,21 @@
+class IntrospectionInfo:
+    def __init__(self, obj):
+        self.obj = obj
+
+    def get_info(self):
+        info = {}
+        info['type'] = type(self.obj)
+        info['attributes'] = [attr for attr in dir(self.obj) if not callable(getattr(self.obj, attr))]
+        info['methods'] = [method for method in dir(self.obj) if callable(getattr(self.obj, method))]
+        info['module'] = self.obj.__class__.__module__
+        info['id'] = id(self.obj)
+        return info
+
+
+def introspection_info(obj):
+    introspection = IntrospectionInfo(obj)
+    return introspection.get_info()
+
+
+number_info = introspection_info(42)
+print(number_info)
